@@ -1,0 +1,139 @@
+[
+  {
+    "id": "article-1780557899034",
+    "title": "新文章标题",
+    "summary": "在这里填写文章摘要。",
+    "cover": "",
+    "category": "技术文章",
+    "author": "具身因赛",
+    "publishedAt": "2026-06-04",
+    "status": "draft",
+    "pinned": false,
+    "content": [
+      {
+        "type": "html",
+        "html": "<h2>小标题</h2><p>从这里开始写正文内容。</p><figure><img src=\"assets/articles/image-1780557902225.png\" alt=\"\"><figcaption>图片说明</figcaption></figure><p><br></p>"
+      }
+    ]
+  },
+  {
+    "id": "article-1780480357777",
+    "title": "新文章标题333555草擦",
+    "summary": "在这里填写文章摘要。",
+    "cover": "",
+    "category": "行业观察",
+    "author": "具身因赛",
+    "publishedAt": "2026-06-03",
+    "status": "published",
+    "pinned": false,
+    "content": [
+      {
+        "type": "html",
+        "html": "<h2>小标题</h2><p>从这里开始写正文内容。</p><p><br></p><p>行业观察</p><figure><img src=\"assets/articles/image-1780557846332.png\" alt=\"\"><figcaption>图片说明</figcaption></figure><p><br></p>"
+      }
+    ]
+  },
+  {
+    "id": "article-1780480354143",
+    "title": "新文章标题222",
+    "summary": "在这里填写文章摘要。",
+    "cover": "",
+    "category": "技术文章",
+    "author": "具身因赛",
+    "publishedAt": "2026-06-03",
+    "status": "published",
+    "pinned": false,
+    "content": [
+      {
+        "type": "html",
+        "html": "<h2>小标题</h2><p>从这里开始写正文内容。</p>"
+      }
+    ]
+  },
+  {
+    "id": "article-1780480346730",
+    "title": "新文章标题111",
+    "summary": "在这里填写文章摘要。",
+    "cover": "",
+    "category": "技术文章",
+    "author": "具身因赛",
+    "publishedAt": "2026-06-03",
+    "status": "published",
+    "pinned": false,
+    "content": [
+      {
+        "type": "html",
+        "html": "<h2>小标题</h2><p>从这里开始写正文内容。</p>"
+      }
+    ]
+  },
+  {
+    "id": "article-1780469915471",
+    "title": "新文章标题",
+    "summary": "在这里填写文章摘要。",
+    "cover": "",
+    "category": "技术文章",
+    "author": "具身因赛",
+    "publishedAt": "2026-06-03",
+    "status": "published",
+    "pinned": false,
+    "content": [
+      {
+        "type": "html",
+        "html": "<h2>小标题</h2><p>从这里开始写正文内容。</p><figure><img src=\"assets/articles/image-1780469926846.png\" alt=\"\"><figcaption>图片说明</figcaption></figure><p>尅大大大发那个</p>"
+      }
+    ]
+  },
+  {
+    "id": "robot-common-technology",
+    "title": "机器人共性技术如何支撑产品落地",
+    "summary": "围绕多模态交互、定位导航、智能控制与具身智能，介绍机器人产品从原型到量产的能力组织方式。",
+    "cover": "assets/articles/robot-common-technology.svg",
+    "category": "技术文章",
+    "author": "具身因赛",
+    "publishedAt": "2026-06-02",
+    "status": "published",
+    "pinned": true,
+    "content": [
+      {
+        "type": "html",
+        "html": "<h2>从单点能力到可交付模块</h2><p>机器人产品落地通常不是单一算法问题，而是感知、交互、定位、控制、硬件和系统集成共同作用的结果。将这些能力拆成可复用模块，可以降低研发不确定性。</p><figure><img src=\"assets/capabilities/navigation.png\" alt=\"定位导航能力可以作为多类移动机器人产品的基础模块。\"><figcaption>定位导航能力可以作为多类移动机器人产品的基础模块。</figcaption></figure><h2>面向场景的工程验证</h2><p>具身因赛更关注能力在真实场景中的稳定性，包括语音交互、地图构建、路径规划、任务控制、设备协同和现场联调。</p>"
+      }
+    ]
+  },
+  {
+    "id": "embodied-ai-odm",
+    "title": "具身智能 ODM 服务的交付边界",
+    "summary": "面向希望进入机器人行业的客户，ODM 服务需要覆盖核心零部件选型、系统集成、样机验证和量产支持。",
+    "category": "公司动态",
+    "cover": "assets/articles/embodied-ai-odm.svg",
+    "publishedAt": "2026-06-02",
+    "author": "具身因赛",
+    "status": "published",
+    "pinned": false,
+    "content": [
+      {
+        "type": "heading",
+        "text": "为什么需要 ODM"
+      },
+      {
+        "type": "paragraph",
+        "text": "对于希望转型进入机器人行业的客户，完整的 ODM 服务可以帮助其补足机器人技术短板，从核心零部件的选型直到产品量产。"
+      },
+      {
+        "type": "list",
+        "items": [
+          "AI 玩具",
+          "四足机器人",
+          "AGV",
+          "扫地机",
+          "割草机"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "这些品类的形态不同，但都需要围绕感知、交互、控制和工程可靠性建立清晰的交付边界。"
+      }
+    ]
+  }
+]

@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>多模态人机交互平台 | EIINSIDE 具身因赛</title>
+    <meta
+      name="description"
+      content="具身因赛面向机器人与智能终端提供多模态人机交互方案，覆盖麦克风阵列、摄像头、多模态理解、语音合成和终端执行。"
+    >
+    <link rel="preload" as="image" href="assets/multimodal/multimodal-hero-hardware.jpg" fetchpriority="high">
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    <link rel="stylesheet" href="./styles.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+    <script src="./script.js" defer></script>
+  </head>
+  <body class="module-page multimodal-platform-page">
+    <header class="site-header module-header">
+      <a class="brand" href="index.html#top" aria-label="具身因赛首页">
+        <span class="brand-mark">
+          <img src="assets/site/brand-logo.png" alt="具身因赛" decoding="async">
+        </span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-label="打开导航" aria-expanded="false">
+        <i data-lucide="menu"></i>
+      </button>
+
+      <nav class="site-nav" aria-label="主导航">
+        <a href="index.html#top">首页</a>
+        <a class="is-active" href="multimodal.html" aria-current="page">多模态人机交互</a>
+        <a href="about.html">关于我们</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="mm-hero" aria-labelledby="mm-hero-title">
+        <div class="mm-hero-image" aria-hidden="true"></div>
+        <div class="container mm-hero-inner">
+          <span class="eyebrow">MULTIMODAL INTERACTION PLATFORM</span>
+          <h1 id="mm-hero-title">全链路人机交互平台</h1>
+          <p>让机器能听、会说、能理解、会思考</p>
+        </div>
+      </section>
+
+      <section class="mm-capability-map section-pad" id="capability-map" aria-label="多模态交互平台架构">
+        <div class="container">
+          <div class="mm-flow-board" data-mm-board>
+            <svg class="mm-flow-lines" aria-hidden="true">
+              <defs>
+                <marker id="mm-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L8,4 L0,8 Z"></path>
+                </marker>
+              </defs>
+              <g data-mm-lines></g>
+            </svg>
+
+            <div class="mm-platform-bar">
+              <i data-lucide="workflow"></i>
+              <div>
+                <strong>多模态交互中枢</strong>
+                <span>感知、理解、生成与执行实时协同</span>
+              </div>
+              <span class="mm-platform-status"><i></i> SYSTEM ONLINE</span>
+            </div>
+
+            <div class="mm-layer-label mm-layer-label-source">
+              <span>01</span>
+              <strong>信源层</strong>
+              <small>感知输入</small>
+            </div>
+            <section class="mm-flow-layer mm-source-layer" aria-labelledby="mm-source-title">
+              <div class="mm-layer-heading">
+                <h3 id="mm-source-title">接收现场中的声音与画面</h3>
+                <span>INPUT</span>
+              </div>
+              <div class="mm-layer-cards mm-source-cards">
+                <button class="mm-node-card has-visual" type="button" data-mm-node="microphone" aria-pressed="false">
+                  <span class="mm-node-visual">
+                    <img src="assets/multimodal/microphone-array-card.jpg" alt="" loading="lazy" decoding="async">
+                  </span>
+                  <span class="mm-node-kicker">ACOUSTIC INPUT</span>
+                  <strong>麦克风阵列</strong>
+                  <span class="mm-node-summary">在远场与噪声环境中获取清晰、可定位的目标声音</span>
+                  <span class="mm-node-tags">
+                    <em>音频采集</em><em>音频增强</em><em>回声消除</em><em>降噪处理</em>
+                    <em>命令词唤醒</em><em>声源定位</em><em>全双工打断</em><em>混响消除</em>
+                  </span>
+                </button>
+
+                <button class="mm-node-card has-visual" type="button" data-mm-node="camera" aria-pressed="false">
+                  <span class="mm-node-visual">
+                    <img src="assets/multimodal/camera-card.jpg" alt="" loading="lazy" decoding="async">
+                  </span>
+                  <span class="mm-node-kicker">VISUAL INPUT</span>
+                  <strong>摄像头</strong>
+                  <span class="mm-node-summary">识别人、动作与环境，让声音与交互对象准确对应</span>
+                  <span class="mm-node-tags">
+                    <em>视频采集</em><em>视频增强</em><em>人脸跟踪</em><em>帧采样</em>
+                    <em>唇形检测</em><em>视觉感知</em><em>多模态融合</em><em>视听定位</em>
+                  </span>
+                </button>
+              </div>
+            </section>
+
+            <div class="mm-layer-label mm-layer-label-reasoning">
+              <span>02</span>
+              <strong>思考层</strong>
+              <small>理解决策</small>
+            </div>
+            <section class="mm-flow-layer mm-reasoning-layer" aria-labelledby="mm-reasoning-title">
+              <div class="mm-layer-heading">
+                <h3 id="mm-reasoning-title">理解用户表达，并决定如何响应</h3>
+                <span>REASONING</span>
+              </div>
+              <div class="mm-layer-cards mm-reasoning-cards">
+                <button class="mm-node-card has-visual" type="button" data-mm-node="asr" aria-pressed="false">
+                  <span class="mm-node-visual">
+                    <img src="assets/multimodal/asr-card.jpg" alt="" loading="lazy" decoding="async">
+                  </span>
+                  <span class="mm-node-kicker">ASR</span>
+                  <strong>语音识别</strong>
+                  <span class="mm-node-summary">把连续语音转换为可理解、可检索的文本信息</span>
+                  <span class="mm-node-tags"><em>中文识别</em><em>方言识别</em><em>英文识别</em></span>
+                </button>
+
+                <button class="mm-node-card has-visual mm-node-primary" type="button" data-mm-node="llm" aria-pressed="false">
+                  <span class="mm-node-visual">
+                    <img src="assets/multimodal/llm-card.jpg" alt="" loading="lazy" decoding="async">
+                  </span>
+                  <span class="mm-node-kicker">LLM / MULTIMODAL MODEL</span>
+                  <strong>大语言模型</strong>
+                  <span class="mm-node-summary">结合语言、视觉和业务上下文，完成推理与任务编排</span>
+                  <span class="mm-node-tags">
+                    <em>自然语言理解</em><em>深度推理</em><em>记忆与检索</em>
+                    <em>决策与响应</em><em>业务能力调用</em>
+                  </span>
+                </button>
+
+                <button class="mm-node-card has-visual" type="button" data-mm-node="tts" aria-pressed="false">
+                  <span class="mm-node-visual">
+                    <img src="assets/multimodal/tts-card.jpg" alt="" loading="lazy" decoding="async">
+                  </span>
+                  <span class="mm-node-kicker">TTS</span>
+                  <strong>语音生成</strong>
+                  <span class="mm-node-summary">将回复转成符合产品角色与场景的自然语音</span>
+                  <span class="mm-node-tags"><em>音色选择</em><em>情感融入</em><em>语速控制</em></span>
+                </button>
+              </div>
+            </section>
+
+            <div class="mm-layer-label mm-layer-label-output">
+              <span>03</span>
+              <strong>展现层</strong>
+              <small>反馈执行</small>
+            </div>
+            <section class="mm-flow-layer mm-output-layer" aria-labelledby="mm-output-title">
+              <div class="mm-layer-heading">
+                <h3 id="mm-output-title">把理解结果变成可感知的反馈与动作</h3>
+                <span>OUTPUT</span>
+              </div>
+              <div class="mm-layer-cards mm-output-cards">
+                <button class="mm-node-card has-visual" type="button" data-mm-node="digital-human" aria-pressed="false">
+                  <span class="mm-node-visual">
+                    <img src="assets/multimodal/digital-human-card.jpg" alt="" loading="lazy" decoding="async">
+                  </span>
+                  <span class="mm-node-kicker">DIGITAL HUMAN</span>
+                  <strong>数字人</strong>
+                  <span class="mm-node-summary">声音、表情和动作同步，形成实时可视化交互</span>
+                  <span class="mm-node-tags"><em>人脸唤醒</em><em>实时交互</em><em>动作渲染</em><em>自动休眠</em></span>
+                </button>
+
+                <button class="mm-node-card has-visual" type="button" data-mm-node="speaker" aria-pressed="false">
+                  <span class="mm-node-visual">
+                    <img src="assets/multimodal/smart-speaker-card.png" alt="" loading="lazy" decoding="async">
+                  </span>
+                  <span class="mm-node-kicker">SMART SPEAKER</span>
+                  <strong>智能音箱</strong>
+                  <span class="mm-node-summary">通过自然语音完成问答、播报与设备控制确认</span>
+                  <span class="mm-node-tags"><em>语音回复</em><em>播放控制</em><em>状态播报</em></span>
+                </button>
+
+                <button class="mm-node-card has-visual" type="button" data-mm-node="robot" aria-pressed="false">
+                  <span class="mm-node-visual">
+                    <img src="assets/multimodal/robot-card.jpg" alt="" loading="lazy" decoding="async">
+                  </span>
+                  <span class="mm-node-kicker">ROBOT</span>
+                  <strong>机器人</strong>
+                  <span class="mm-node-summary">将用户意图转为导航、查询、联动与设备动作</span>
+                  <span class="mm-node-tags"><em>智能控制</em><em>任务执行</em><em>状态反馈</em></span>
+                </button>
+              </div>
+            </section>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="site-footer" id="footer">
+      <div class="container footer-inner">
+        <div>
+          <strong>EIINSIDE 具身因赛</strong>
+          <p>让机器人开发变得更加简单。</p>
+        </div>
+        <div class="footer-links">
+          <a href="index.html#technology">核心技术</a>
+          <a href="multimodal.html">多模态人机交互</a>
+          <a href="about.html">关于我们</a>
+        </div>
+      </div>
+      <div class="container footer-legal">
+        <span>版权所有© 安徽省具身因赛科技有限公司</span>
+        <a href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer">皖ICP备2026001637号</a>
+        <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=34019202002976" target="_blank" rel="noreferrer">皖公网安备34019202002976号</a>
+        <span>本网站由阿里云提供云计算及安全服务</span>
+        <span>本网站支持 IPv6</span>
+      </div>
+    </footer>
+  </body>
+</html>

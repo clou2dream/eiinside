@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EIINSIDE 具身因赛 | 机器人核心技术与产品</title>
+    <meta
+      name="description"
+      content="安徽省具身因赛科技有限公司专注机器人行业关键共性技术研究和产品开发，为下游机器人企业提供技术服务及硬件模块。"
+    >
+    <link rel="preload" as="image" href="assets/site/hero-visual.webp" fetchpriority="high">
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    <link rel="stylesheet" href="./styles.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+    <script src="./script.js" defer></script>
+  </head>
+  <body class="home-origin">
+    <header class="site-header origin-header">
+      <a class="brand" href="#top" aria-label="具身因赛首页">
+        <span class="brand-mark">
+          <img src="assets/site/brand-logo.png" alt="具身因赛" decoding="async">
+        </span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-label="打开导航" aria-expanded="false">
+        <i data-lucide="menu"></i>
+      </button>
+
+      <nav class="site-nav" aria-label="主导航">
+        <a href="#top">首页</a>
+        <a href="multimodal.html">多模态人机交互</a>
+        <a href="about.html">关于我们</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="origin-hero" aria-label="具身因赛">
+        <div class="origin-hero-image" aria-hidden="true"></div>
+        <div class="origin-hero-content container">
+          <h1>关于我们</h1>
+          <p>
+            安徽省具身因赛科技有限公司专注机器人行业关键共性技术研究和产品开发，为下游机器人企业提供技术服务及硬件模块。
+          </p>
+        </div>
+        <div class="origin-hero-dot" aria-hidden="true"></div>
+      </section>
+
+      <section class="origin-about section-pad" id="about">
+        <div class="container origin-about-inner">
+          <div class="origin-about-copy">
+            <span class="origin-watermark">ABOUT</span>
+            <h2>公司介绍</h2>
+            <p>
+              安徽省具身因赛科技有限公司，成立于2025年9月27日，公司专注机器人行业关键共性技术研究和产品开发，为下游机器人企业提供技术服务及硬件模块，为企业开发机器人产品降本增效，加速产品落地进程。
+            </p>
+            <p>
+              我们可以为机器人企业补足技术短板，让机器人能听会说，人行走自如、操作自如。为想要转型进入机器人行业的客户提供完整的ODM服务，从核心零部件的选型直到产品量产。覆盖AI玩具、四足机器人、AGV、扫地机、割草机等多种品类。
+            </p>
+            <div class="origin-about-icons" aria-label="核心方向">
+              <div>
+                <i data-lucide="audio-lines"></i>
+                <strong>多模态人机交互</strong>
+              </div>
+              <div>
+                <i data-lucide="map-pin"></i>
+                <strong>定位与导航</strong>
+              </div>
+              <div>
+                <i data-lucide="bot"></i>
+                <strong>具身智能</strong>
+              </div>
+            </div>
+          </div>
+          <div class="origin-about-visual">
+            <img src="assets/site/about-park.webp" alt="中国声谷" loading="lazy" decoding="async">
+            <span>中国声谷</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="origin-slogan" aria-label="企业使命">
+        <div class="container">
+          <h2>一切为了让机器人开发变得更加简单</h2>
+          <p>TO MAKE ROBOT DEVELOPMENT SIMPLER</p>
+        </div>
+      </section>
+
+      <section class="origin-technology section-pad" id="technology">
+        <div class="container">
+          <div class="origin-section-title">
+            <h2>核心技术</h2>
+            <p>CORE TECHNOLOGY</p>
+          </div>
+
+          <div class="origin-tech-grid">
+            <article class="origin-tech-card origin-tech-card-media-left">
+              <img src="assets/capabilities/multimodal.webp" alt="具身因赛多模态人机交互平台" loading="lazy" decoding="async">
+              <div>
+                <h3>多模态人机交互平台</h3>
+                <p class="origin-tech-en">MULTIMODAL INTERACTION PLATFORM</p>
+                <p>输入：麦克风阵列、摄像头及多模态设备</p>
+                <p>思考：实时语音识别、语义理解、上下文与任务编排</p>
+                <p>输出：智能音箱、数字人、屏幕及机器人动作</p>
+                <a class="origin-tech-detail-link" href="multimodal.html">
+                  了解产品平台
+                  <i data-lucide="arrow-right"></i>
+                </a>
+              </div>
+            </article>
+
+            <article class="origin-tech-card origin-tech-card-media-right">
+              <div>
+                <h3>多传感器融合定位导航方案</h3>
+                <p class="origin-tech-en">MULTIMODAL INTERACTION TECHNOLOGY</p>
+                <p>定位与建图：激光SLAM、视觉SLAM、机器人全局重定位、探索式建图，地图美化，地图分区</p>
+                <p>路径规划：全局路径规划、局部路径规划、路径追踪、地图遍历、自动回冲</p>
+                <p>障碍物感知：地面检测、障碍物检测</p>
+              </div>
+              <img src="assets/capabilities/navigation.webp" alt="多传感器融合定位导航方案" loading="lazy" decoding="async">
+            </article>
+
+            <article class="origin-tech-card origin-tech-card-media-left">
+              <img src="assets/capabilities/control.webp" alt="智能控制与强化学习" loading="lazy" decoding="async">
+              <div>
+                <h3>智能控制与强化学习</h3>
+                <p class="origin-tech-en">INTELLIGENT CONTROL AND REINFORCEMENT LEARNING</p>
+              </div>
+            </article>
+
+            <article class="origin-tech-card origin-tech-card-media-right">
+              <div>
+                <h3>具身智能</h3>
+                <p class="origin-tech-en">EMBODIED AI INTELLIGENT</p>
+                <p>制造具身智能体：装配、分拣、逆生产、转运</p>
+                <p>科研具身智能体：机器人化学家</p>
+                <p>能源具身智能体：高危作业、无人作业</p>
+              </div>
+              <img src="assets/capabilities/odm.webp" alt="具身智能" loading="lazy" decoding="async">
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="origin-partners section-pad" id="partners">
+        <div class="container">
+          <div class="origin-section-title">
+            <h2>合作伙伴</h2>
+          </div>
+          <div class="partner-marquee" aria-label="合作伙伴标识">
+            <div class="partner-track">
+              <div class="partner-logo"><img src="assets/partners/logo-01.webp" alt="瑞德智能" loading="lazy" decoding="async"><span>瑞德智能</span></div>
+              <div class="partner-logo"><img src="assets/partners/logo-02.webp" alt="JAKA" loading="lazy" decoding="async"><span>JAKA</span></div>
+              <div class="partner-logo"><img src="assets/partners/logo-03.webp" alt="中国科学技术大学" loading="lazy" decoding="async"><span>中国科学技术大学</span></div>
+              <div class="partner-logo"><img src="assets/partners/logo-04.webp" alt="奥比中光 ORBBEC" loading="lazy" decoding="async"><span>奥比中光 ORBBEC</span></div>
+              <div class="partner-logo"><img src="assets/partners/logo-06.webp" alt="宇树科技" loading="lazy" decoding="async"><span>宇树科技</span></div>
+              <div class="partner-logo"><img src="assets/partners/logo-07.webp" alt="亚博智能" loading="lazy" decoding="async"><span>亚博智能</span></div>
+              <div class="partner-logo"><img src="assets/partners/logo-08.webp" alt="云深处科技 DEEP Robotics" loading="lazy" decoding="async"><span>云深处科技 DEEP Robotics</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="home-articles section-pad" id="articles" hidden>
+        <div class="container">
+          <div class="origin-section-title">
+            <h2>文章动态</h2>
+            <p>ARTICLES</p>
+          </div>
+          <div class="home-article-grid" data-home-articles></div>
+          <div class="home-article-actions">
+            <a class="button button-secondary" href="articles.html">
+              <i data-lucide="newspaper"></i>
+              查看更多文章
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="origin-footer" id="footer">
+      <div class="container origin-footer-main">
+        <div class="origin-footer-brand">
+          <img src="assets/site/brand-logo.png" alt="具身因赛" loading="lazy" decoding="async">
+          <p>版权所有 © 安徽省具身因赛科技有限公司</p>
+        </div>
+
+        <div class="origin-footer-links origin-footer-links-compact">
+          <div>
+            <strong>产品中心</strong>
+            <a href="multimodal.html">多模态人机交互</a>
+            <a href="multimodal.html#input-layer">多模态输入</a>
+            <a href="multimodal.html#reasoning-layer">实时语音大模型</a>
+            <a href="multimodal.html#output-layer">智能交互终端</a>
+          </div>
+          <div>
+            <strong>关于我们</strong>
+            <a href="about.html#profile">公司介绍</a>
+            <a href="#partners">合作伙伴</a>
+            <a href="about.html#join">社会责任</a>
+            <a href="about.html#join">信息安全</a>
+          </div>
+          <div>
+            <strong>联系我们</strong>
+            <p>安徽省合肥市蜀山区高新区长宁社区服务中心习友路3333号中国（合肥）国际智能语音产业园5号楼2层206室</p>
+            <p><a href="tel:19523655907">19523655907</a></p>
+            <p><a href="mailto:pengzhang@eiinside.com">pengzhang@eiinside.com</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="container footer-legal origin-legal">
+        <span>版权所有© 安徽省具身因赛科技有限公司</span>
+        <a href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer">皖ICP备2026001637号</a>
+        <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=34019202002976" target="_blank" rel="noreferrer">
+          皖公网安备34019202002976号
+        </a>
+        <span>本网站由阿里云提供云计算及安全服务</span>
+        <span>本网站支持 IPv6</span>
+      </div>
+    </footer>
+  </body>
+</html>

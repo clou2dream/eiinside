@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>文章动态 | EIINSIDE 具身因赛</title>
+    <meta name="description" content="具身因赛文章动态，包含公司动态、技术文章、产品方案与行业观察。">
+    <link rel="stylesheet" href="./styles.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+    <script src="./script.js" defer></script>
+  </head>
+  <body class="articles-page">
+    <header class="site-header">
+      <a class="brand" href="index.html#top" aria-label="EIINSIDE 首页">
+        <span class="brand-mark"><img src="assets/site/brand-logo.png" alt="具身因赛"></span>
+        <span class="brand-name">具身因赛</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-label="打开导航" aria-expanded="false"><i data-lucide="menu"></i></button>
+      <nav class="site-nav" aria-label="主导航">
+        <a href="index.html#top">首页</a>
+        <a href="multimodal.html">多模态人机交互</a>
+        <a href="about.html">关于我们</a>
+        <a href="index.html#technology">核心技术</a>
+        <a href="index.html#partners">合作伙伴</a>
+        <a class="is-active" href="articles.html" aria-current="page">文章动态</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="article-list-hero">
+        <div class="container">
+          <span class="eyebrow">ARTICLES</span>
+          <h1>文章动态</h1>
+          <p>沉淀机器人共性技术、具身智能落地、产品方案和产业观察。</p>
+        </div>
+      </section>
+
+      <section class="article-list-section section-pad">
+        <div class="container">
+          <div class="article-toolbar">
+            <div class="article-categories" data-article-categories></div>
+          </div>
+
+          <div class="article-featured" data-article-featured hidden></div>
+
+          <div class="article-latest-section" data-article-latest-section hidden>
+            <div class="article-subhead">
+              <h2>最新发布</h2>
+            </div>
+            <div class="article-list-grid article-latest-grid" data-article-latest></div>
+          </div>
+
+          <div class="article-rest-section" data-article-rest-section hidden>
+            <div class="article-subhead">
+              <h2>更多文章</h2>
+            </div>
+            <div class="article-row-list" data-article-list></div>
+            <div class="article-pagination" data-article-pagination></div>
+          </div>
+
+          <div class="article-empty" data-article-empty hidden>暂无文章内容。</div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" id="footer">
+      <div class="container footer-inner">
+        <div>
+          <strong>EIINSIDE 具身因赛</strong>
+          <p>让机器人开发变得更加简单。</p>
+        </div>
+        <div class="footer-links">
+          <a href="index.html#technology">核心技术</a>
+          <a href="multimodal.html">多模态人机交互</a>
+          <a href="articles.html">文章动态</a>
+          <a href="about.html">关于我们</a>
+        </div>
+      </div>
+      <div class="container footer-legal">
+        <span>版权所有© 安徽省具身因赛科技有限公司</span>
+        <a href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer">皖ICP备2026001637号</a>
+        <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=34019202002976" target="_blank" rel="noreferrer">皖公网安备34019202002976号</a>
+        <span>本网站由阿里云提供云计算及安全服务</span>
+        <span>本网站支持 IPv6</span>
+      </div>
+    </footer>
+  </body>
+</html>

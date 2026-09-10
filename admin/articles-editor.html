@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>文章编辑器 | EIINSIDE 具身因赛</title>
+    <link rel="stylesheet" href="../styles.css">
+  </head>
+  <body class="article-editor-page">
+    <main class="article-editor" data-editor-app>
+      <aside class="editor-sidebar">
+        <button class="editor-sidebar-toggle" type="button" data-sidebar-toggle aria-label="收起侧边栏" aria-expanded="true"></button>
+        <div class="editor-sidebar-content">
+          <a class="editor-brand" href="../articles.html">EIINSIDE 文章编辑器</a>
+          <button class="editor-primary" type="button" data-new-article>新建文章</button>
+          <label class="editor-search">
+            <span>搜索文章</span>
+            <input type="search" placeholder="输入标题关键词" data-article-search>
+          </label>
+          <div class="editor-list" data-editor-list></div>
+        </div>
+      </aside>
+
+      <section class="editor-workspace editor-workspace-wide">
+        <form class="editor-form editor-form-wide" data-editor-form>
+          <div class="editor-header">
+            <div>
+              <span class="eyebrow">ARTICLE CMS</span>
+              <h1>图文文章发布</h1>
+            </div>
+            <div class="editor-actions">
+              <button class="button button-danger" type="button" data-delete-article>删除文章</button>
+              <button class="button button-secondary" type="button" data-save-draft>保存草稿</button>
+              <button class="button button-primary" type="submit">发布文章</button>
+            </div>
+          </div>
+
+          <div class="editor-fields">
+            <label>
+              <span>标题</span>
+              <input name="title" type="text" required>
+            </label>
+            <label>
+              <span>文章 ID</span>
+              <input name="id" type="text" required>
+            </label>
+            <label>
+              <span>摘要</span>
+              <textarea name="summary" required></textarea>
+            </label>
+            <label>
+              <span>封面图</span>
+              <div class="editor-file-row">
+                <input name="cover" type="text" placeholder="assets/articles/example.jpg">
+                <input class="editor-file-input" name="coverFile" type="file" accept="image/*" data-cover-file>
+                <button class="editor-mini-button" type="button" data-pick-cover>选择图片</button>
+              </div>
+            </label>
+            <label>
+              <span>分类</span>
+              <select name="category">
+                <option value="技术文章">技术文章</option>
+                <option value="公司动态">公司动态</option>
+                <option value="产品方案">产品方案</option>
+                <option value="行业观察">行业观察</option>
+                <option value="客户案例">客户案例</option>
+              </select>
+            </label>
+            <label>
+              <span>作者</span>
+              <input name="author" type="text" value="具身因赛">
+            </label>
+            <label>
+              <span>发布日期</span>
+              <input name="publishedAt" type="date">
+            </label>
+            <label>
+              <span>状态</span>
+              <select name="status">
+                <option value="published">发布</option>
+                <option value="draft">草稿</option>
+              </select>
+            </label>
+            <label class="editor-switch">
+              <span>星标置顶</span>
+              <input name="pinned" type="checkbox">
+              <em>开启后会自动取消其他文章置顶</em>
+            </label>
+          </div>
+
+          <div class="rich-toolbar" aria-label="文章编辑工具栏">
+            <button type="button" data-format="h2">标题</button>
+            <button type="button" data-format="p">正文</button>
+            <button type="button" data-command="bold">加粗</button>
+            <button type="button" data-command="insertUnorderedList">列表</button>
+            <button type="button" data-format="blockquote">引用</button>
+            <button type="button" data-insert-image>插入图片</button>
+            <input class="editor-file-input" type="file" accept="image/*" data-body-image-file>
+          </div>
+
+          <article class="rich-editor-shell">
+            <div class="rich-editor" contenteditable="true" data-rich-editor aria-label="正文编辑区"></div>
+          </article>
+        </form>
+      </section>
+    </main>
+
+    <script>
+      const collapsedStorageKey = "eiinsideArticleEditorCollapsedCategories";
+      const sidebarCollapsedStorageKey = "eiinsideArticleEditorSidebarCollapsed";
+      const articlesUrl = "../content/articles.json";
+      const rootArticlesUrl = "/content/articles.json";
+      const articleAssetRoot = "/assets/articles/";
+      const articleAssetPath = "assets/articles/";
+      const articleCategories = ["技术文章", "公司动态", "产品方案", "行业观察", "客户案例"];
+
+      let articles = [];
+      let currentId = "";
+      let editorLoaded = false;
+      let collapsedCategories = new Set(JSON.parse(localStorage.getItem(collapsedStorageKey) || "[]"));
+
+      const editorApp = document.querySelector("[data-editor-app]");
+      const listEl = document.querySelector("[data-editor-list]");
+      const form = document.querySelector("[data-editor-form]");
+      const editor = document.querySelector("[data-rich-editor]");
+      const coverFileInput = document.querySelector("[data-cover-file]");
+      const bodyImageInput = document.querySelector("[data-body-image-file]");
+      const articleSearchInput = document.querySelector("[data-article-search]");
+      const sidebarToggle = document.querySelector("[data-sidebar-toggle]");
+
+      function openEditor() {
+        if (!editorLoaded) {
+          editorLoaded = true;
+          loadArticles();
+        }
+      }
+
+      function today() {
+        return new Date().toISOString().slice(0, 10);
+      }
+
+      function slugify(text) {
+        const base = text
+          .trim()
+          .toLowerCase()
+          .replace(/[^a-z0-9\u4e00-\u9fa5]+/g, "-")
+          .replace(/^-+|-+$/g, "");
+        return base || `article-${Date.now()}`;
+      }
+
+      function escapeHtml(value = "") {
+        return String(value).replace(/[&<>"']/g, (char) => ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#039;",
+        })[char]);
+      }
+
+      function resolveEditorAsset(src = "") {
+        if (!src) return "";
+        if (/^(data:|https?:|blob:)/.test(src)) return src;
+        return `../${src}`;
+      }
+
+      function sanitizeFileName(name = "image.png") {
+        const extension = (name.match(/\.[a-zA-Z0-9]+$/)?.[0] || ".png").toLowerCase();
+        const base = name
+          .replace(/\.[^.]+$/, "")
+          .trim()
+          .toLowerCase()
+          .replace(/[^a-z0-9\u4e00-\u9fa5]+/g, "-")
+          .replace(/^-+|-+$/g, "")
+          .slice(0, 48);
+        return `${base || "article-image"}-${Date.now()}${extension}`;
+      }
+
+      function readFileAsDataUrl(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+      }
+
+      async function saveImageFile(file) {
+        const fileName = sanitizeFileName(file.name);
+        const relativePath = `${articleAssetPath}${fileName}`;
+        try {
+          const response = await fetch(`${articleAssetRoot}${fileName}`, {
+            method: "PUT",
+            headers: { "Content-Type": file.type || "application/octet-stream" },
+            body: file,
+          });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          return relativePath;
+        } catch (error) {
+          return readFileAsDataUrl(file);
+        }
+      }
+
+      function articleTemplate() {
+        return {
+          id: `article-${Date.now()}`,
+          title: "新文章标题",
+          summary: "在这里填写文章摘要。",
+          category: "技术文章",
+          cover: "",
+          publishedAt: today(),
+          author: "具身因赛",
+          status: "draft",
+          pinned: false,
+          content: [{ type: "html", html: "<h2>小标题</h2><p>从这里开始写正文内容。</p>" }],
+        };
+      }
+
+      function blockToHtml(block) {
+        if (block.type === "html") return block.html || "";
+        if (block.type === "heading") return `<h2>${escapeHtml(block.text)}</h2>`;
+        if (block.type === "paragraph") return `<p>${escapeHtml(block.text)}</p>`;
+        if (block.type === "quote") return `<blockquote>${escapeHtml(block.text)}</blockquote>`;
+        if (block.type === "code") return `<pre><code>${escapeHtml(block.text)}</code></pre>`;
+        if (block.type === "list") return `<ul>${(block.items || []).map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
+        if (block.type === "image") {
+          return `<figure><img src="${escapeHtml(resolveEditorAsset(block.src))}" alt="${escapeHtml(block.caption || "")}"><figcaption>${escapeHtml(block.caption || "")}</figcaption></figure>`;
+        }
+        return "";
+      }
+
+      function articleToEditorHtml(article) {
+        return (article.content || []).map(blockToHtml).join("") || "<p></p>";
+      }
+
+      function normalizeEditorHtml(html) {
+        const shell = document.createElement("div");
+        shell.innerHTML = html;
+
+        shell.querySelectorAll("script, style, iframe, object, embed").forEach((node) => node.remove());
+        shell.querySelectorAll("*").forEach((node) => {
+          [...node.attributes].forEach((attr) => {
+            if (attr.name.startsWith("on")) node.removeAttribute(attr.name);
+            if (attr.name === "style") node.removeAttribute(attr.name);
+          });
+          if (node.tagName === "IMG") {
+            const src = node.getAttribute("src") || "";
+            if (/^(blob:|data:|https?:|\.\.\/assets\/|assets\/)/.test(src)) {
+              node.setAttribute("src", src.replace(/^\.\.\//, ""));
+            } else {
+              node.remove();
+            }
+          }
+        });
+        return shell.innerHTML.trim();
+      }
+
+      function persistCollapsedCategories() {
+        localStorage.setItem(collapsedStorageKey, JSON.stringify([...collapsedCategories]));
+      }
+
+      function setSidebarCollapsed(isCollapsed) {
+        editorApp.classList.toggle("is-sidebar-collapsed", isCollapsed);
+        sidebarToggle.setAttribute("aria-expanded", String(!isCollapsed));
+        sidebarToggle.setAttribute("aria-label", isCollapsed ? "展开侧边栏" : "收起侧边栏");
+        localStorage.setItem(sidebarCollapsedStorageKey, isCollapsed ? "1" : "0");
+      }
+
+      function renderList() {
+        const draftCurrent = collectArticle();
+        const keyword = articleSearchInput.value.trim().toLowerCase();
+        const visibleArticles = articles
+          .map((article) => article.id === currentId ? { ...article, ...draftCurrent } : article)
+          .filter((article) => !keyword || String(article.title || "").toLowerCase().includes(keyword))
+          .sort((a, b) => Number(Boolean(b.pinned)) - Number(Boolean(a.pinned)) || String(b.publishedAt || "").localeCompare(String(a.publishedAt || "")));
+
+        if (visibleArticles.length === 0) {
+          listEl.innerHTML = `<p class="editor-empty">没有匹配的文章</p>`;
+          return;
+        }
+
+        const groupedArticles = visibleArticles.reduce((groups, article) => {
+          const category = article.status === "published" ? (article.category || "未分类") : "草稿";
+          if (!groups.has(category)) groups.set(category, []);
+          groups.get(category).push(article);
+          return groups;
+        }, new Map());
+        const orderedCategories = [
+          ...(groupedArticles.has("草稿") ? ["草稿"] : []),
+          ...articleCategories.filter((category) => groupedArticles.has(category)),
+          ...[...groupedArticles.keys()].filter((category) => category !== "草稿" && !articleCategories.includes(category)).sort(),
+        ];
+
+        listEl.innerHTML = orderedCategories.map((category) => {
+          const isCollapsed = collapsedCategories.has(category);
+          const isDraftGroup = category === "草稿";
+          return `
+          <section class="editor-category ${isCollapsed ? "is-collapsed" : ""} ${isDraftGroup ? "is-draft-group" : ""}">
+            <button class="editor-category-toggle" type="button" data-toggle-category="${escapeHtml(category)}" aria-expanded="${String(!isCollapsed)}">
+              <strong>${escapeHtml(category)}</strong>
+              <span>${groupedArticles.get(category).length}</span>
+            </button>
+            <div class="editor-category-items">
+              ${groupedArticles.get(category).map((article) => `
+                <button type="button" class="${article.id === currentId ? "is-active" : ""} ${article.pinned ? "is-pinned" : ""}" data-open-article="${escapeHtml(article.id)}">
+                  <strong>${escapeHtml(article.title)}</strong>
+                  <span>${article.pinned ? "★ 置顶 · " : ""}${escapeHtml(article.status === "published" ? "发布" : "草稿")} · ${escapeHtml(article.publishedAt || "")}</span>
+                </button>
+              `).join("")}
+            </div>
+          </section>
+        `;
+        }).join("");
+      }
+
+      async function loadArticles() {
+        try {
+          const response = await fetch(`${articlesUrl}?t=${Date.now()}`);
+          articles = await response.json();
+        } catch (error) {
+          articles = [articleTemplate()];
+        }
+        currentId = articles[0]?.id || "";
+        loadArticle(currentId);
+      }
+
+      function loadArticle(id) {
+        const article = articles.find((item) => item.id === id) || articles[0] || articleTemplate();
+        currentId = article.id;
+        form.title.value = article.title || "";
+        form.id.value = article.id || "";
+        form.summary.value = article.summary || "";
+        form.cover.value = article.cover || "";
+        if (article.category && !articleCategories.includes(article.category)) {
+          const option = document.createElement("option");
+          option.value = article.category;
+          option.textContent = article.category;
+          form.category.append(option);
+        }
+        form.category.value = article.category || "技术文章";
+        form.author.value = article.author || "具身因赛";
+        form.publishedAt.value = article.publishedAt || today();
+        form.status.value = article.status || "draft";
+        form.pinned.checked = Boolean(article.pinned);
+        editor.innerHTML = articleToEditorHtml(article);
+        renderList();
+      }
+
+      function collectArticle(statusOverride = "") {
+        const data = new FormData(form);
+        return {
+          id: String(data.get("id") || "").trim(),
+          title: String(data.get("title") || "").trim(),
+          summary: String(data.get("summary") || "").trim(),
+          cover: String(data.get("cover") || "").trim(),
+          category: String(data.get("category") || "").trim(),
+          author: String(data.get("author") || "").trim(),
+          publishedAt: String(data.get("publishedAt") || today()).trim(),
+          status: statusOverride || String(data.get("status") || "draft").trim(),
+          pinned: data.get("pinned") === "on",
+          content: [{ type: "html", html: normalizeEditorHtml(editor.innerHTML) }],
+        };
+      }
+
+      async function saveArticles(statusOverride = "") {
+        const article = collectArticle(statusOverride);
+        if (!article.id || !article.title) {
+          form.reportValidity();
+          return;
+        }
+
+        if (article.status !== "published") {
+          article.pinned = false;
+          form.pinned.checked = false;
+        }
+
+        if (article.pinned) {
+          articles = articles.map((item) => ({ ...item, pinned: false }));
+        }
+
+        const index = articles.findIndex((item) => item.id === currentId || item.id === article.id);
+        if (index >= 0) articles[index] = article;
+        else articles.unshift(article);
+        currentId = article.id;
+        await persistArticles();
+        renderList();
+      }
+
+      async function persistArticles(successMessage = "文章已保存到服务器。") {
+        const json = JSON.stringify(articles, null, 2);
+        try {
+          const response = await fetch(rootArticlesUrl, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: json,
+          });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          alert(successMessage);
+          return true;
+        } catch (error) {
+          downloadJson(json);
+          alert("当前环境未开放服务器写入，已下载 articles.json。部署时可替换 content/articles.json。");
+          return false;
+        }
+      }
+
+      async function deleteCurrentArticle() {
+        const article = collectArticle();
+        if (!currentId) return;
+
+        const confirmed = confirm(`确认删除文章「${article.title || currentId}」吗？删除后不可恢复。`);
+        if (!confirmed) return;
+
+        const currentIndex = articles.findIndex((item) => item.id === currentId);
+        articles = articles.filter((item) => item.id !== currentId);
+        await persistArticles("文章已删除。");
+
+        if (articles.length === 0) {
+          const nextArticle = articleTemplate();
+          articles.unshift(nextArticle);
+          currentId = nextArticle.id;
+          loadArticle(nextArticle.id);
+          return;
+        }
+
+        const nextArticle = articles[Math.min(Math.max(currentIndex, 0), articles.length - 1)];
+        loadArticle(nextArticle.id);
+      }
+
+      function downloadJson(json = JSON.stringify(articles, null, 2)) {
+        const blob = new Blob([json], { type: "application/json;charset=utf-8" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "articles.json";
+        link.click();
+        URL.revokeObjectURL(link.href);
+      }
+
+      function exec(command, value = null) {
+        editor.focus();
+        document.execCommand(command, false, value);
+      }
+
+      async function insertImageFile(file) {
+        if (!file || !file.type.startsWith("image/")) return;
+        const src = await saveImageFile(file);
+        exec("insertHTML", `<figure><img src="${escapeHtml(resolveEditorAsset(src))}" alt=""><figcaption>图片说明</figcaption></figure><p><br></p>`);
+      }
+
+      document.querySelector("[data-new-article]").addEventListener("click", () => {
+        const article = articleTemplate();
+        articles.unshift(article);
+        loadArticle(article.id);
+      });
+
+      document.querySelector("[data-save-draft]").addEventListener("click", () => {
+        form.status.value = "draft";
+        saveArticles("draft");
+      });
+
+      document.querySelector("[data-delete-article]").addEventListener("click", deleteCurrentArticle);
+
+      articleSearchInput.addEventListener("input", renderList);
+
+      sidebarToggle.addEventListener("click", () => {
+        setSidebarCollapsed(!editorApp.classList.contains("is-sidebar-collapsed"));
+      });
+
+      listEl.addEventListener("click", (event) => {
+        const toggle = event.target.closest("[data-toggle-category]");
+        if (toggle) {
+          const category = toggle.dataset.toggleCategory;
+          if (collapsedCategories.has(category)) collapsedCategories.delete(category);
+          else collapsedCategories.add(category);
+          persistCollapsedCategories();
+          renderList();
+          return;
+        }
+
+        const button = event.target.closest("[data-open-article]");
+        if (button) loadArticle(button.dataset.openArticle);
+      });
+
+      document.querySelector("[data-pick-cover]").addEventListener("click", () => {
+        coverFileInput.click();
+      });
+
+      coverFileInput.addEventListener("change", async () => {
+        const file = coverFileInput.files?.[0];
+        if (!file) return;
+        form.cover.value = await saveImageFile(file);
+        coverFileInput.value = "";
+      });
+
+      document.querySelector("[data-insert-image]").addEventListener("click", () => {
+        bodyImageInput.click();
+      });
+
+      bodyImageInput.addEventListener("change", async () => {
+        await insertImageFile(bodyImageInput.files?.[0]);
+        bodyImageInput.value = "";
+      });
+
+      document.querySelector(".rich-toolbar").addEventListener("click", (event) => {
+        const button = event.target.closest("button");
+        if (!button) return;
+        if (button.dataset.format) exec("formatBlock", button.dataset.format);
+        if (button.dataset.command) exec(button.dataset.command);
+      });
+
+      editor.addEventListener("paste", async (event) => {
+        const imageItem = Array.from(event.clipboardData?.items || [])
+          .find((item) => item.type.startsWith("image/"));
+        if (imageItem) {
+          event.preventDefault();
+          await insertImageFile(imageItem.getAsFile());
+        }
+      });
+
+      form.addEventListener("input", (event) => {
+        if (event.target.name === "title" && !form.id.value.trim()) {
+          form.id.value = slugify(event.target.value);
+        }
+        if (["category", "pinned", "publishedAt", "status", "title"].includes(event.target.name)) {
+          renderList();
+        }
+      });
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        form.status.value = "published";
+        saveArticles("published");
+      });
+
+      setSidebarCollapsed(localStorage.getItem(sidebarCollapsedStorageKey) === "1");
+      openEditor();
+    </script>
+  </body>
+</html>
